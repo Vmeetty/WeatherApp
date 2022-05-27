@@ -18,6 +18,8 @@
 		CEDB310C2840EED8001AA98E /* WeatherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDB310B2840EED8001AA98E /* WeatherModel.swift */; };
 		CEDB3111284117DB001AA98E /* ForecastData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDB3110284117DB001AA98E /* ForecastData.swift */; };
 		CEDB311528411FE1001AA98E /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDB311428411FE1001AA98E /* Service.swift */; };
+		CEDB311728412DDB001AA98E /* ForecastTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDB311628412DDB001AA98E /* ForecastTableViewCell.swift */; };
+		CEDB311928412F34001AA98E /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDB311828412F34001AA98E /* Constants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +36,8 @@
 		CEDB310B2840EED8001AA98E /* WeatherModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherModel.swift; sourceTree = "<group>"; };
 		CEDB3110284117DB001AA98E /* ForecastData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastData.swift; sourceTree = "<group>"; };
 		CEDB311428411FE1001AA98E /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
+		CEDB311628412DDB001AA98E /* ForecastTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastTableViewCell.swift; sourceTree = "<group>"; };
+		CEDB311828412F34001AA98E /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +73,7 @@
 				CEDB30F128409B1D001AA98E /* AppDelegate.swift */,
 				CEDB30F328409B1D001AA98E /* SceneDelegate.swift */,
 				CEDB311428411FE1001AA98E /* Service.swift */,
+				CEDB311828412F34001AA98E /* Constants.swift */,
 				CEDB310D284110B5001AA98E /* Model */,
 				CEDB310F284110D6001AA98E /* Controller */,
 				CEDB310E284110CC001AA98E /* View */,
@@ -94,6 +99,7 @@
 			isa = PBXGroup;
 			children = (
 				CEDB30F728409B1D001AA98E /* Main.storyboard */,
+				CEDB311628412DDB001AA98E /* ForecastTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -182,7 +188,9 @@
 				CEDB30F228409B1D001AA98E /* AppDelegate.swift in Sources */,
 				CEDB30F428409B1D001AA98E /* SceneDelegate.swift in Sources */,
 				CEDB31062840CA34001AA98E /* NetworkManager.swift in Sources */,
+				CEDB311928412F34001AA98E /* Constants.swift in Sources */,
 				CEDB3111284117DB001AA98E /* ForecastData.swift in Sources */,
+				CEDB311728412DDB001AA98E /* ForecastTableViewCell.swift in Sources */,
 				CEDB310C2840EED8001AA98E /* WeatherModel.swift in Sources */,
 				CEDB310A2840DC8E001AA98E /* WeatherData.swift in Sources */,
 			);

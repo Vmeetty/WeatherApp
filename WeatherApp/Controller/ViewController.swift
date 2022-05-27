@@ -16,6 +16,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var conditionImageView: UIImageView!
     @IBOutlet weak var indicator: UIActivityIndicatorView!
     
+    @IBOutlet weak var tableView: UITableView!
+    
     var forecasts = [WeatherModel]()
     
     let locationManager = CLLocationManager()
@@ -29,6 +31,9 @@ class ViewController: UIViewController {
         locationManager.requestLocation()
         networkManager.delegate = self
         searchTextField.delegate = self
+        tableView.dataSource = self
+        
+//        networkManager.fetchForcast(latitude: <#T##CLLocationDegrees#>, longitude: <#T##CLLocationDegrees#>)
     }
 
     @IBAction func searchPressed(_ sender: UIButton) {
@@ -53,6 +58,28 @@ class ViewController: UIViewController {
     }
 }
 
+
+//MARK: - TableView DataSource section
+
+extension ViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return forecasts.count
+    }
+    
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: K.shared.cellID, for: indexPath) as! ForecastTableViewCell
+        cell.conditionImageView.image = UIImage(systemName: forecasts[indexPath.row].conditionName)
+        cell.temperatureLabel.text = forecasts[indexPath.row].temperatureString
+        
+        return cell
+    }
+    
+}
+
+
+//MARK: - TextFieldDelegate section
+
 extension ViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -74,6 +101,7 @@ extension ViewController: NetworkManagerDelegate {
     func didUpdateForecast(_ forecasts: [WeatherModel]) {
         DispatchQueue.main.async {
             self.forecasts = forecasts
+            self.tableView.reloadData()
         }
     }
     
