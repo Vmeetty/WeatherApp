@@ -16,6 +16,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var conditionImageView: UIImageView!
     @IBOutlet weak var indicator: UIActivityIndicatorView!
     
+    var forecasts = [WeatherModel]()
     
     let locationManager = CLLocationManager()
     var networkManager = NetworkManager()
@@ -69,6 +70,13 @@ extension ViewController: UITextFieldDelegate {
 }
 
 extension ViewController: NetworkManagerDelegate {
+   
+    func didUpdateForecast(_ forecasts: [WeatherModel]) {
+        DispatchQueue.main.async {
+            self.forecasts = forecasts
+        }
+    }
+    
 
     func didUpdateWeather(_ networkManager: NetworkManager, weather: WeatherModel) {
         DispatchQueue.main.async {
@@ -94,6 +102,7 @@ extension ViewController: CLLocationManagerDelegate {
             let lon = location.coordinate.longitude
             indicator.startAnimating()
             networkManager.fetchCurrentWeather(latitude: lat, longitude: lon)
+            networkManager.fetchForcast(latitude: lat, longitude: lon)
         }
     }
     
