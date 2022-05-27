@@ -197,6 +197,7 @@
                         <outlet property="indicator" destination="w5t-Js-C2n" id="7yP-81-Q6b"/>
                         <outlet property="searchTextField" destination="QvN-dA-M5u" id="kYF-wy-fxt"/>
                         <outlet property="tableView" destination="AVW-tO-cZl" id="kwh-Tn-VJc"/>
+                        <outlet property="tempStack" destination="kuZ-CI-cEy" id="o3V-78-7PN"/>
                         <outlet property="temperatureLabel" destination="uiK-D7-C2p" id="Jc0-wn-LZE"/>
                     </connections>
                 </viewController>

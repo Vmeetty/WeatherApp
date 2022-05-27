@@ -103,7 +103,8 @@ struct NetworkManager {
             for item in decodedForecastData.list {
                 let dayTemp = item.temp.day
                 let conditionID = item.weather[0].id
-                let forecast = ForecastModel(conditionId: conditionID, temperature: dayTemp)
+                let dt = item.dt
+                let forecast = ForecastModel(conditionId: conditionID, temperature: dayTemp, timeStamp: dt)
                 forecastArray.append(forecast)
             }
             return forecastArray

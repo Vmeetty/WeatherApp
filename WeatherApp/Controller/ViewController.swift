@@ -15,6 +15,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var cityLabel: UILabel!
     @IBOutlet weak var conditionImageView: UIImageView!
     @IBOutlet weak var indicator: UIActivityIndicatorView!
+    @IBOutlet weak var tempStack: UIStackView!
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -25,7 +26,7 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        configUI(hiden: true)
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         locationManager.requestLocation()
@@ -51,9 +52,14 @@ class ViewController: UIViewController {
             networkManager.fetchCurrentWeather(cityName: searchTextField.text!)
             searchTextField.placeholder = "Search"
         } else {
-            // should add an alert message <<<<<<<<<<<<<<<<<<<<<<<<<<<------------------------
             searchTextField.placeholder = "Type something..."
         }
+    }
+    
+    func configUI(hiden: Bool) {
+        cityLabel.isHidden = hiden
+        conditionImageView.isHidden = hiden
+        tempStack.isHidden = hiden
     }
 }
 
@@ -70,6 +76,7 @@ extension ViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: K.shared.cellID, for: indexPath) as! ForecastTableViewCell
         cell.conditionImageView.image = UIImage(systemName: forecasts[indexPath.row].conditionName)
         cell.temperatureLabel.text = forecasts[indexPath.row].temperatureString
+        cell.dayLabel.text = forecasts[indexPath.row].humanDate
         
         return cell
     }
@@ -111,6 +118,7 @@ extension ViewController: NetworkManagerDelegate {
             self.conditionImageView.image = UIImage(systemName: weather.conditionName)
             self.cityLabel.text = weather.cityName
             self.indicator.stopAnimating()
+            self.configUI(hiden: false)
         }
     }
     
@@ -129,7 +137,6 @@ extension ViewController: CLLocationManagerDelegate {
             let lon = location.coordinate.longitude
             indicator.startAnimating()
             networkManager.fetchCurrentWeather(latitude: lat, longitude: lon)
-//            networkManager.fetchForcast(latitude: lat, longitude: lon)
         }
     }
     
