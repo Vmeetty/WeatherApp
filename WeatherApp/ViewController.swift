@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 class ViewController: UIViewController {
     
@@ -15,12 +16,15 @@ class ViewController: UIViewController {
     @IBOutlet weak var conditionImageView: UIImageView!
     
     
-    
+    let locationManager = CLLocationManager()
     var networkManager = NetworkManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.requestLocation()
         networkManager.delegate = self
         searchTextField.delegate = self
     }
@@ -28,6 +32,9 @@ class ViewController: UIViewController {
     @IBAction func searchPressed(_ sender: UIButton) {
         textGrabing()
         searchTextField.endEditing(true)
+    }
+    @IBAction func locationPressed(_ sender: UIButton) {
+        locationManager.requestLocation()
     }
     
     
@@ -69,6 +76,23 @@ extension ViewController: NetworkManagerDelegate {
     }
     
     func didFailWithError(error: Error) {
+        print(error)
+    }
+}
+
+
+//MARK: - CLLocationManagerDelegate section
+
+extension ViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.last {
+            let lat = location.coordinate.latitude
+            let lon = location.coordinate.longitude
+            networkManager.fetchCurrentWeather(latitude: lat, longitude: lon)
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print(error)
     }
 }
