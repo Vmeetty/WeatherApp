@@ -11,7 +11,7 @@ import CoreLocation
 
 protocol NetworkManagerDelegate: AnyObject {
     func didUpdateWeather(_ networkManager: NetworkManager, weather: WeatherModel)
-    func didUpdateForecast(_ forecasts: [WeatherModel])
+    func didUpdateForecast(_ forecasts: [ForecastModel])
     func didFailWithError(error: Error)
 }
 
@@ -35,10 +35,6 @@ struct NetworkManager {
         performRequestBy(with: urlString)
     }
     
-    func fetchForcast(latitude: CLLocationDegrees, longitude: CLLocationDegrees) {
-        let urlString = "\(forecastURL)&lat=\(latitude)&lon=\(longitude)"
-        performRequestBy(with: urlString, andForecast: true)
-    }
     
     
     //MARK: -  Networking
@@ -50,31 +46,48 @@ struct NetworkManager {
                 if error != nil {
                     self.delegate?.didFailWithError(error: error!)
                 }
-                if let safeData = data {
-                    if forecast {
-                        if let forecasts = parseForecastJSON(safeData) {
-                            self.delegate?.didUpdateForecast(forecasts)
-                        }
-                    } else {
-                        if let weather = parseCurrentWeatherJSON(safeData) {
-                            self.delegate?.didUpdateWeather(self, weather: weather)
-                        }
-                    }
+                guard let currentWeatherData = data else {
+                    fatalError("Fail to get currentWeatherData")
                 }
+                guard let currentWeather = parseCurrentWeatherJSON(currentWeatherData) else {
+                    fatalError("Fail to parse currentWeather data")
+                }
+                let lon = currentWeather.lon
+                let lat = currentWeather.lat
+                let urlString = "\(forecastURL)&lat=\(lat)&lon=\(lon)"
+                if  let forecastURL = URL(string: urlString) {
+                    let forecastSession = URLSession(configuration: .default)
+                    let forecastTask = forecastSession.dataTask(with: forecastURL) { forecastData, response, forecastError in
+                        if error != nil {
+                            self.delegate?.didFailWithError(error: forecastError!)
+                        }
+                        guard let forcastData = forecastData else {
+                            fatalError("Fail to get forecastData")
+                        }
+                        guard let forecasts = parseForecastJSON(forcastData) else {
+                            fatalError("Fail to parse forecast data")
+                        }
+                        self.delegate?.didUpdateForecast(forecasts)
+                    }
+                    forecastTask.resume()
+                }
+                self.delegate?.didUpdateWeather(self, weather: currentWeather)
             }
             task.resume()
         }
     }
     
-    
+
     private func parseCurrentWeatherJSON(_ data: Data) -> WeatherModel? {
         let decoder = JSONDecoder()
         do {
             let decodedCurrentWeatherData = try decoder.decode(WeatherData.self, from: data)
             let name = decodedCurrentWeatherData.name
             let temp = decodedCurrentWeatherData.main.temp
-            let conditionId = decodedCurrentWeatherData.weather[0].id
-            let weather = WeatherModel(conditionId: conditionId, cityName: name, temperature: temp)
+            let conditionID = decodedCurrentWeatherData.weather[0].id
+            let lon = decodedCurrentWeatherData.coord.lon
+            let lat = decodedCurrentWeatherData.coord.lat
+            let weather = WeatherModel(lon: lon, lat: lat, conditionId: conditionID, cityName: name, temperature: temp)
             return weather
         } catch {
             self.delegate?.didFailWithError(error: error)
@@ -82,16 +95,16 @@ struct NetworkManager {
         }
     }
     
-    private func parseForecastJSON(_ data: Data) -> [WeatherModel]? {
+    private func parseForecastJSON(_ data: Data) -> [ForecastModel]? {
         let decoder = JSONDecoder()
         do {
             let decodedForecastData = try decoder.decode(ForecastData.self, from: data)
-            var forecastArray = [WeatherModel]()
+            var forecastArray = [ForecastModel]()
             for item in decodedForecastData.list {
                 let dayTemp = item.temp.day
                 let conditionID = item.weather[0].id
-                let weather = WeatherModel(conditionId: conditionID, cityName: nil, temperature: dayTemp)
-                forecastArray.append(weather)
+                let forecast = ForecastModel(conditionId: conditionID, temperature: dayTemp)
+                forecastArray.append(forecast)
             }
             return forecastArray
         } catch {

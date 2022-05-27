@@ -1,5 +1,5 @@
 //
-//  WeatherModel.swift
+//  ForecastModel.swift
 //  WeatherApp
 //
 //  Created by user on 27.05.2022.
@@ -8,11 +8,8 @@
 import Foundation
 
 
-struct WeatherModel {
-    let lon: Double
-    let lat: Double
+struct ForecastModel {
     let conditionId: Int
-    let cityName: String?
     let temperature: Double
     
     var temperatureString: String {
@@ -22,6 +19,4 @@ struct WeatherModel {
     var conditionName: String {
         return Service.shared.getConditionStringName(with: conditionId)
     }
-    
 }
-
