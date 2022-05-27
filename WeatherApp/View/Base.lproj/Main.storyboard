@@ -171,6 +171,13 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="w5t-Js-C2n">
+                                <rect key="frame" x="157" y="398" width="100" height="100"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="4M1-C3-NiH"/>
+                                    <constraint firstAttribute="height" constant="100" id="9hx-sv-xbm"/>
+                                </constraints>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -184,17 +191,20 @@
                             <constraint firstItem="QW5-Um-K96" firstAttribute="top" secondItem="kuZ-CI-cEy" secondAttribute="bottom" id="Mw6-Ay-HWa"/>
                             <constraint firstItem="sdj-i2-Xda" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Urb-p4-ecR"/>
                             <constraint firstAttribute="bottom" secondItem="sdj-i2-Xda" secondAttribute="bottom" id="YBQ-NU-7zy"/>
+                            <constraint firstItem="w5t-Js-C2n" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="aVq-pd-mly"/>
                             <constraint firstItem="PxN-cJ-v5p" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="fih-cT-Ind"/>
                             <constraint firstItem="AVW-tO-cZl" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="hs1-lt-sYP"/>
                             <constraint firstAttribute="trailing" secondItem="sdj-i2-Xda" secondAttribute="trailing" id="jNV-QC-P8K"/>
                             <constraint firstItem="QW5-Um-K96" firstAttribute="leading" secondItem="kuZ-CI-cEy" secondAttribute="leading" id="pQw-Sn-KlK"/>
                             <constraint firstItem="sdj-i2-Xda" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="tRg-A1-sha"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="AVW-tO-cZl" secondAttribute="bottom" id="z4n-mQ-Pj0"/>
+                            <constraint firstItem="w5t-Js-C2n" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="zl9-eS-FNJ"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="cityLabel" destination="rn5-BA-GYU" id="S31-7G-1e2"/>
                         <outlet property="conditionImageView" destination="1bR-Bs-wZd" id="kH5-ZZ-ScO"/>
+                        <outlet property="indicator" destination="w5t-Js-C2n" id="7yP-81-Q6b"/>
                         <outlet property="searchTextField" destination="QvN-dA-M5u" id="kYF-wy-fxt"/>
                         <outlet property="temperatureLabel" destination="uiK-D7-C2p" id="Jc0-wn-LZE"/>
                     </connections>

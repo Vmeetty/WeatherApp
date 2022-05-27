@@ -14,6 +14,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet weak var cityLabel: UILabel!
     @IBOutlet weak var conditionImageView: UIImageView!
+    @IBOutlet weak var indicator: UIActivityIndicatorView!
     
     
     let locationManager = CLLocationManager()
@@ -34,12 +35,14 @@ class ViewController: UIViewController {
         searchTextField.endEditing(true)
     }
     @IBAction func locationPressed(_ sender: UIButton) {
+        indicator.startAnimating()
         locationManager.requestLocation()
     }
     
     
     func textGrabing() {
         if searchTextField.text != "" {
+            indicator.startAnimating()
             networkManager.fetchCurrentWeather(cityName: searchTextField.text!)
             searchTextField.placeholder = "Search"
         } else {
@@ -72,6 +75,7 @@ extension ViewController: NetworkManagerDelegate {
             self.temperatureLabel.text = weather.temperatureString
             self.conditionImageView.image = UIImage(systemName: weather.conditionName)
             self.cityLabel.text = weather.cityName
+            self.indicator.stopAnimating()
         }
     }
     
@@ -88,6 +92,7 @@ extension ViewController: CLLocationManagerDelegate {
         if let location = locations.last {
             let lat = location.coordinate.latitude
             let lon = location.coordinate.longitude
+            indicator.startAnimating()
             networkManager.fetchCurrentWeather(latitude: lat, longitude: lon)
         }
     }

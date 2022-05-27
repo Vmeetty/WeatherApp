@@ -18,15 +18,21 @@ struct NetworkManager {
     
     weak var delegate: NetworkManagerDelegate?
     
-    private let baseURL = "https://api.openweathermap.org/data/2.5/weather?appid=ace498cd3f6f1233bd5177301ccbe956&units=metric"
+    private let currentWeatherURL = "https://api.openweathermap.org/data/2.5/weather?appid=ace498cd3f6f1233bd5177301ccbe956&units=metric"
+    private let forecastURL = "https://api.openweathermap.org/data/2.5/forecast/daily?appid=ace498cd3f6f1233bd5177301ccbe956&units=metric&cnt=16"
     
     func fetchCurrentWeather(cityName: String) {
-        let urlString = "\(baseURL)&q=\(cityName)"
+        let urlString = "\(currentWeatherURL)&q=\(cityName)"
         performRequestBy(with: urlString)
     }
     
     func fetchCurrentWeather(latitude: CLLocationDegrees, longitude: CLLocationDegrees) {
-        let urlString = "\(baseURL)&lat=\(latitude)&lon=\(longitude)"
+        let urlString = "\(currentWeatherURL)&lat=\(latitude)&lon=\(longitude)"
+        performRequestBy(with: urlString)
+    }
+    
+    func fetchForcast(latitude: CLLocationDegrees, longitude: CLLocationDegrees) {
+        let urlString = "\(forecastURL)&lat=\(latitude)&lon=\(longitude)"
         performRequestBy(with: urlString)
     }
     

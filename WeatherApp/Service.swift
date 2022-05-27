@@ -1,5 +1,5 @@
 //
-//  WeatherModel.swift
+//  Service.swift
 //  WeatherApp
 //
 //  Created by user on 27.05.2022.
@@ -8,17 +8,13 @@
 import Foundation
 
 
-struct WeatherModel {
+struct Service {
     
-    let conditionId: Int
-    let cityName: String
-    let temperature: Double
+    static let shared = Service()
     
-    var temperatureString: String {
-        return String(format: "%.0f", temperature)
-    }
+    init(){}
     
-    var conditionName: String {
+    func getConditionStringName(with conditionId: Int) -> String {
         switch conditionId {
         case 200...232: return "cloud.bolt"
         case 300...321: return "cloud.drizzle"
