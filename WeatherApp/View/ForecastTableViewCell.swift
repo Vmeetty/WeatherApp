@@ -20,10 +20,11 @@ class ForecastTableViewCell: UITableViewCell {
         
     }
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    func configureCellBy(_ forcast: ForecastModel) {
+        conditionImageView.image = UIImage(systemName: forcast.conditionName)
+        temperatureLabel.text = forcast.temperatureString
+        dayLabel.text = forcast.humanDate
     }
+    
 
 }

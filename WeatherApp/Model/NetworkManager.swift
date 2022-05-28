@@ -25,21 +25,21 @@ struct NetworkManager {
   
     //MARK: - URL preparing
     
-    func fetchCurrentWeather(cityName: String) {
+    func fetchWeather(cityName: String) {
         let urlString = "\(currentWeatherURL)&q=\(cityName)"
-        performRequestBy(with: urlString)
+        performRequest(with: urlString)
     }
     
-    func fetchCurrentWeather(latitude: CLLocationDegrees, longitude: CLLocationDegrees) {
+    func fetchWeather(latitude: CLLocationDegrees, longitude: CLLocationDegrees) {
         let urlString = "\(currentWeatherURL)&lat=\(latitude)&lon=\(longitude)"
-        performRequestBy(with: urlString)
+        performRequest(with: urlString)
     }
     
     
     
     //MARK: -  Networking
     
-    private func performRequestBy(with urlStr: String, andForecast forecast: Bool = false) {
+    private func performRequest(with urlStr: String, andForecast forecast: Bool = false) {
         if let url = URL(string: urlStr) {
             let session = URLSession(configuration: .default)
             let task = session.dataTask(with: url) { data, response, error in

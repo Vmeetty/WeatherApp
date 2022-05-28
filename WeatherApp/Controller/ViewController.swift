@@ -21,8 +21,9 @@ class ViewController: UIViewController {
     
     var forecasts = [ForecastModel]()
     
-    let locationManager = CLLocationManager()
+    private let locationManager = CLLocationManager()
     var networkManager = NetworkManager()
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,8 +34,8 @@ class ViewController: UIViewController {
         networkManager.delegate = self
         searchTextField.delegate = self
         tableView.dataSource = self
-        
     }
+    
 
     @IBAction func searchPressed(_ sender: UIButton) {
         textGrabing()
@@ -49,7 +50,7 @@ class ViewController: UIViewController {
     func textGrabing() {
         if searchTextField.text != "" {
             indicator.startAnimating()
-            networkManager.fetchCurrentWeather(cityName: searchTextField.text!)
+            networkManager.fetchWeather(cityName: searchTextField.text!)
             searchTextField.placeholder = "Search"
         } else {
             searchTextField.placeholder = "Type something..."
@@ -71,13 +72,9 @@ extension ViewController: UITableViewDataSource {
         return forecasts.count
     }
     
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: K.shared.cellID, for: indexPath) as! ForecastTableViewCell
-        cell.conditionImageView.image = UIImage(systemName: forecasts[indexPath.row].conditionName)
-        cell.temperatureLabel.text = forecasts[indexPath.row].temperatureString
-        cell.dayLabel.text = forecasts[indexPath.row].humanDate
-        
+        cell.configureCellBy(forecasts[indexPath.row])
         return cell
     }
     
@@ -103,14 +100,12 @@ extension ViewController: UITextFieldDelegate {
 }
 
 extension ViewController: NetworkManagerDelegate {
-   
     func didUpdateForecast(_ forecasts: [ForecastModel]) {
         DispatchQueue.main.async {
             self.forecasts = forecasts
             self.tableView.reloadData()
         }
     }
-    
 
     func didUpdateWeather(_ networkManager: NetworkManager, weather: WeatherModel) {
         DispatchQueue.main.async {
@@ -131,12 +126,28 @@ extension ViewController: NetworkManagerDelegate {
 //MARK: - CLLocationManagerDelegate section
 
 extension ViewController: CLLocationManagerDelegate {
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        if CLLocationManager.locationServicesEnabled() {
+            switch locationManager.authorizationStatus {
+                case .notDetermined, .restricted, .denied:
+                    print("No access")
+                case .authorizedAlways, .authorizedWhenInUse:
+                    print("Access")
+                    locationManager.requestLocation()
+                @unknown default:
+                    break
+            }
+        } else {
+            print("Location services are not enabled")
+        }
+    }
+    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.last {
             let lat = location.coordinate.latitude
             let lon = location.coordinate.longitude
             indicator.startAnimating()
-            networkManager.fetchCurrentWeather(latitude: lat, longitude: lon)
+            networkManager.fetchWeather(latitude: lat, longitude: lon)
         }
     }
     
