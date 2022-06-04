@@ -27,19 +27,24 @@ struct NetworkManager {
     
     func fetchWeather(cityName: String) {
         let urlString = "\(currentWeatherURL)&q=\(cityName)"
-        performRequest(with: urlString)
+        performCurrentWeatherRequest(with: urlString)
     }
     
     func fetchWeather(latitude: CLLocationDegrees, longitude: CLLocationDegrees) {
         let urlString = "\(currentWeatherURL)&lat=\(latitude)&lon=\(longitude)"
-        performRequest(with: urlString)
+        performCurrentWeatherRequest(with: urlString)
+    }
+    
+    func fetchForecast(latitude: Double, longitude: Double) {
+        let urlString = "\(forecastURL)&lat=\(latitude)&lon=\(longitude)"
+        performForecastRequest(with: urlString)
     }
     
     
     
     //MARK: -  Networking
     
-    private func performRequest(with urlStr: String, andForecast forecast: Bool = false) {
+    private func performCurrentWeatherRequest(with urlStr: String) {
         if let url = URL(string: urlStr) {
             let session = URLSession(configuration: .default)
             let task = session.dataTask(with: url) { data, response, error in
@@ -52,30 +57,35 @@ struct NetworkManager {
                 guard let currentWeather = parseCurrentWeatherJSON(currentWeatherData) else {
                     fatalError("Fail to parse currentWeather data")
                 }
-                let lon = currentWeather.lon
-                let lat = currentWeather.lat
-                let urlString = "\(forecastURL)&lat=\(lat)&lon=\(lon)"
-                if  let forecastURL = URL(string: urlString) {
-                    let forecastSession = URLSession(configuration: .default)
-                    let forecastTask = forecastSession.dataTask(with: forecastURL) { forecastData, response, forecastError in
-                        if error != nil {
-                            self.delegate?.didFailWithError(error: forecastError!)
-                        }
-                        guard let forcastData = forecastData else {
-                            fatalError("Fail to get forecastData")
-                        }
-                        guard let forecasts = parseForecastJSON(forcastData) else {
-                            fatalError("Fail to parse forecast data")
-                        }
-                        self.delegate?.didUpdateForecast(forecasts)
-                    }
-                    forecastTask.resume()
-                }
+                let longitude = currentWeather.lon
+                let latitude = currentWeather.lat
+                fetchForecast(latitude: latitude, longitude: longitude)
+            
                 self.delegate?.didUpdateWeather(self, weather: currentWeather)
             }
             task.resume()
         }
     }
+    
+    private func performForecastRequest(with urlStr: String) {
+        if let forecastURL = URL(string: urlStr) {
+            let forecastSession = URLSession(configuration: .default)
+            let forecastTask = forecastSession.dataTask(with: forecastURL) { forecastData, response, error in
+                if error != nil {
+                    self.delegate?.didFailWithError(error: error!)
+                }
+                guard let forcastData = forecastData else {
+                    fatalError("Fail to get forecastData")
+                }
+                guard let forecasts = parseForecastJSON(forcastData) else {
+                    fatalError("Fail to parse forecast data")
+                }
+                self.delegate?.didUpdateForecast(forecasts)
+            }
+            forecastTask.resume()
+        }
+    }
+    
     
 
     private func parseCurrentWeatherJSON(_ data: Data) -> WeatherModel? {
