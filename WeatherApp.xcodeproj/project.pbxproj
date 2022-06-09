@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		CEB54BA5284B6E3700F86ECA /* GetSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB54BA4284B6E3700F86ECA /* GetSession.swift */; };
-		CEB54BA8284B717A00F86ECA /* WeatherManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB54BA7284B717A00F86ECA /* WeatherManager.swift */; };
 		CEDB30F228409B1D001AA98E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDB30F128409B1D001AA98E /* AppDelegate.swift */; };
 		CEDB30F428409B1D001AA98E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDB30F328409B1D001AA98E /* SceneDelegate.swift */; };
 		CEDB30F628409B1D001AA98E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDB30F528409B1D001AA98E /* ViewController.swift */; };
@@ -26,8 +24,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		CEB54BA4284B6E3700F86ECA /* GetSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetSession.swift; sourceTree = "<group>"; };
-		CEB54BA7284B717A00F86ECA /* WeatherManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherManager.swift; sourceTree = "<group>"; };
 		CEDB30EE28409B1D001AA98E /* WeatherApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEDB30F128409B1D001AA98E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CEDB30F328409B1D001AA98E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -61,17 +57,8 @@
 			isa = PBXGroup;
 			children = (
 				CEDB31052840CA34001AA98E /* NetworkManager.swift */,
-				CEB54BA4284B6E3700F86ECA /* GetSession.swift */,
 			);
 			path = Network;
-			sourceTree = "<group>";
-		};
-		CEB54BA6284B6F8600F86ECA /* WeatherFetching */ = {
-			isa = PBXGroup;
-			children = (
-				CEB54BA7284B717A00F86ECA /* WeatherManager.swift */,
-			);
-			path = WeatherFetching;
 			sourceTree = "<group>";
 		};
 		CEDB30E528409B1D001AA98E = {
@@ -95,7 +82,6 @@
 			children = (
 				CEDB30F128409B1D001AA98E /* AppDelegate.swift */,
 				CEDB30F328409B1D001AA98E /* SceneDelegate.swift */,
-				CEB54BA6284B6F8600F86ECA /* WeatherFetching */,
 				CEDB311C284203E8001AA98E /* Helpers */,
 				CEB54BA3284B6A1100F86ECA /* Network */,
 				CEDB310D284110B5001AA98E /* Model */,
@@ -218,9 +204,7 @@
 			files = (
 				CEDB30F628409B1D001AA98E /* ViewController.swift in Sources */,
 				CEDB311528411FE1001AA98E /* Service.swift in Sources */,
-				CEB54BA5284B6E3700F86ECA /* GetSession.swift in Sources */,
 				CEDB30F228409B1D001AA98E /* AppDelegate.swift in Sources */,
-				CEB54BA8284B717A00F86ECA /* WeatherManager.swift in Sources */,
 				CEDB30F428409B1D001AA98E /* SceneDelegate.swift in Sources */,
 				CEDB31062840CA34001AA98E /* NetworkManager.swift in Sources */,
 				CEDB311928412F34001AA98E /* Constants.swift in Sources */,
